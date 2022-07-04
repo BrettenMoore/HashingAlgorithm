@@ -11,7 +11,8 @@ public:
 
 private:
     struct Node {
-        unsigned int id;
+        int id;
+        std::vector<int> key;
     };
     
     std::vector<Node> nodeCluster;
