@@ -23,21 +23,34 @@ int ConsistentHashing::getNodeForKey(int key)
 
 int ConsistentHashing::removeNode(int node)
 {
-	return 0;
+	
+	int randomNode = rand() % nodeCluster.size();
+	for (auto& i : nodeCluster[node].key)
+	{
+		nodeCluster[randomNode].key.push_back(i);
+	}
+	nodeCluster.erase(nodeCluster.begin() + node);
+
+	return randomNode;
 }
 
 std::vector<int> ConsistentHashing::addNode()
 {
 	std::vector<int> result;
 	int randomNode = rand() % nodeCluster.size();
-	Node node{ nodeCluster.size() + 1, nodeCluster[randomNode].key };
+	Node node{ nodeCluster.size(), nodeCluster[randomNode].key };
 	nodeCluster.push_back(node);
-	result.push_back(nodeCluster.size() + 1);
+	result.push_back(nodeCluster.size());
 	result.push_back(randomNode);
 	return result;
 }
 
 std::vector<int> ConsistentHashing::getKeysInNode(int node)
 {
-	return std::vector<int>();
+	std::vector<int> result;
+	for (auto& i : nodeCluster[node].key)
+	{
+		result.push_back(i);
+	}
+	return result;
 }
